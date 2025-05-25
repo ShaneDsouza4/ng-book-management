@@ -7,12 +7,21 @@ import { mergeMap, Observable, map, catchError, of } from "rxjs";
 @Injectable() //
 export class BookEffects {
 
-    addBook$ = createEffect(() => this.actions$.pipe( //Run effect when specific addBookAction appears
+    //NgRx Effect reponds to 'AddBook' actions.
+    addBook$ = createEffect(() => this.actions$.pipe( //2. Run effect when specific addBookAction appears
+        //Listen for actions of type 'AddBook'
         ofType(bookActions.AddBook),
-        //PErform when action occurs
-        mergeMap((action) => this.bookService.addBook(action)
-            .pipe(
-                map(book => bookActions.AddBookSuccess(book)),
+
+        //For each 'AddBook' action, call 'addBook' on the Booke service
+        //'mergeMap' allows multiple concurrent 'addBook' calls.
+        //MergeMap: Take multiple observables and convert to one observable ( Multiple actions mapped to One Onservable, as can occur fast )
+        mergeMap((action) => this.bookService.addBook(action) //AddBook Method puts in DB, response is sent back
+            .pipe(//'pipe', as not done yet, and want to do something when response received.
+
+                //If the 'addBook' call is success, dispatch 'AddBookSuccess' action with the book data
+                map(book => bookActions.AddBookSuccess(book)), //Takes book from bookservice call, and adding to AddBookSucess to start the actio
+
+                //If the 'addBook' call fails, dispatch 'AddBookFailure' action with the error
                 catchError((error) => of(bookActions.AddBookFailure({ error })))
             )
         )
