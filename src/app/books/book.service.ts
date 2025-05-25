@@ -10,6 +10,11 @@ export class BookService {
 
   // Faking an Observable to say API worked fine
   addBook(book: Book): Observable<Book> {
+
+    //Uncomment to trigger error
+    //const err = new Error('Error while adding a book');
+    //return throwError(() => err)
+
     return of(book);
   }
 }
