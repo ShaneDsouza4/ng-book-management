@@ -1,16 +1,51 @@
-<h1> Books</h1>
+<div class="container">
+    <h1 class="mt-5 mb-3 text-center">Book Management</h1>
+    <h3 class="mt-5 mb-3">Create new book</h3>
+    <form>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Book ID: </label>
+                <input class="form-control" type="text" placeholder="Book Id" #bookId>
+            </div>
 
-<div *ngFor="let book of books$ | async">
-    <h2>{{book.title}}</h2>
-    <h2>{{book.author}}</h2>
-    <button (click)="removeBook(book.id)">Remove Book</button>
-</div>
+            <div class="col">
+                <label class="form-label">Book Title: </label>
+                <input class="form-control" type="text" placeholder="Book Title" #bookTitle>
+            </div>
+        </div>
 
-<h2>Create new book</h2>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Book Author: </label>
+                <input class="form-control" type="text" placeholder="Book Author" #bookAuthor>
+            </div>
+        </div>
 
-<div>
-    <input #bookId type="text" placeholder="Book Id">
-    <input #bookTitle type="text" placeholder="Book Title">
-    <input #bookAuthor type="text" placeholder="Book Author">
-    <button (click)="addBook(bookId.value, bookTitle.value, bookAuthor.value)">Add Book</button>
+    </form>
+    <button class="btn btn-primary" (click)="addBook(bookId.value, bookTitle.value, bookAuthor.value)">Add
+        Book</button>
+
+    <hr>
+
+    <h3 class="mt-5 mb-3">Books List</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books$ | async">
+                <td>{{book.title}}</td>
+                <td>{{book.author}}</td>
+                <td>
+                    <button class="btn btn-sm btn-danger mx-1" (click)="removeBook(book.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
